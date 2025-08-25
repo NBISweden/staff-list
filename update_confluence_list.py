@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     # get the column headers and make a dictionary of the column names
     logging.debug("Getting column headers...")
-    headers = [cell.value for cell in ws[1]]
+    headers = [cell.value.lower() if cell.value is not None else cell.value for cell in ws[1]]
     header_dict = {header: index for index, header in enumerate(headers)}
     logging.debug(f"Column headers: {header_dict}")
 

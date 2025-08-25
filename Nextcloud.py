@@ -11,7 +11,6 @@ class Nextcloud:
         """
         self.config = config
         self.args = args
-        self.setup_logging()
 
 
     def download_spreadsheet(self):
@@ -35,16 +34,3 @@ class Nextcloud:
             logging.error("Failed to download the spreadsheet.")
 
 
-    def setup_logging(self):
-        """
-        Set up logging self.configuration.
-        """
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler("nextcloud.log"),
-                logging.StreamHandler()
-            ]
-        )
-        logging.debug("Logging is set up.")
