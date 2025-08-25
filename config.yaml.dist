@@ -2,3 +2,14 @@ base_url: https://nextcloud.example.com
 username: google-14561346357247368568458478
 password: aejgheukgheukghaeguheaguih
 remote_file_path: The Big TechOps Folder/staff_list.xlsx
+nextcloud:
+  base_url: https://nextcloud.example.com
+  username: google-14561346357247368568458478
+  password: aejgheukgheukghaeguheaguih
+  remote_file_path: The Big TechOps Folder/staff_list.xlsx
+confluence:
+  base_url: https://example.atlassian.net
+  space_key: SPCKY
+  page_id: 248924892465
+  username: listmanagersuer@example.com
+  api_key: AERGILHJFG262H56562HJK456HJK3467YHJL34G346HJL346HJK346G7H35647JHG3467HJL36G356HJL736HJL7FG3567LHJ345-356JGHFGHJKL36-3567JLH35V67HJV3567-5J3HL6V
