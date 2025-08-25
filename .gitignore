@@ -3,3 +3,4 @@
 *.xls*
 *.sw*
 venv/
+__pycache__/

@@ -1,8 +1,13 @@
+import logging
+import requests
+from requests.auth import HTTPBasicAuth
+
+
 class Nextcloud:
 
     def __init__(self, config, args): 
         """
-        Initialize the Nextcloud class with configuration.
+        Initialize the Nextcloud class with self.configuration.
         """
         self.config = config
         self.args = args
@@ -18,8 +23,8 @@ class Nextcloud:
 
         # Download the spreadsheet
         logging.info("Downloading spreadsheet...")
-        logging.debug(f"Using URL: {self.config['base_url']}/remote.php/dav/files/{self.config['username']}/{self.config['remote_file_path']}")
-        response = requests.get(f"{self.config['base_url']}/remote.php/dav/files/{self.config['username']}/{self.config['remote_file_path']}", auth=HTTPBasicAuth(self.config['username'], self.config['password']))
+        logging.debug(f"Using URL: {self.config['nextcloud']['base_url']}/remote.php/dav/files/{self.config['nextcloud']['username']}/{self.config['nextcloud']['remote_file_path']}")
+        response = requests.get(f"{self.config['nextcloud']['base_url']}/remote.php/dav/files/{self.config['nextcloud']['username']}/{self.config['nextcloud']['remote_file_path']}", auth=HTTPBasicAuth(self.config['nextcloud']['username'], self.config['nextcloud']['password']))
 
         # Check if the request was successful
         if response.status_code == 200:
@@ -32,7 +37,7 @@ class Nextcloud:
 
     def setup_logging(self):
         """
-        Set up logging configuration.
+        Set up logging self.configuration.
         """
         logging.basicConfig(
             level=logging.DEBUG,
