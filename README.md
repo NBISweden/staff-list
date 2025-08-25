@@ -31,7 +31,7 @@ vim config.yaml                  # edit copy
 
 ## Scripts
 
-Short explaination of the scripts:
+Short explaination of the scripts. Run the scripts with `-h` to see more details.
 
 ### update_confluence_list.py
 Will download the staff list spreadsheet from Nextcloud and recreate it as a page in Confluence.
