@@ -13,8 +13,8 @@ import openpyxl
 from datetime import datetime
 from datetime import timedelta
 
-# employment grace period in months
-EMPLOYMENT_GRACE_PERIOD_DAYS = 3
+# employment grace period in days
+EMPLOYMENT_GRACE_PERIOD_DAYS = 90
 
 
 def download_spreadsheet(config, args):
