@@ -78,8 +78,6 @@ if __name__ == "__main__":
     # initialize the html table
     logging.debug("Initializing the HTML table for staff list...")
     html_table = f"""
-Staff list document updated: {mod_time.strftime("%Y-%m-%d %H:%M:%S")}
-This page rendered on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
     <table>
         <tr>
             <th><strong>Name</strong></th>
@@ -111,7 +109,11 @@ This page rendered on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
             <td>{row[header_dict['role']]}</td>
         </tr>"""
 
-    html_table += "\n    </table>"
+    html_table += f"""\n    </table>
+This list is generated daily from the central master staff list in Data Center's NextCloud instance.
+Staff list document updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
+This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}
+"""
 
 
     confluence = Confluence(config, args)
