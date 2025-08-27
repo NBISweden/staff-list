@@ -70,9 +70,16 @@ if __name__ == "__main__":
 
     logging.info("Spreadsheet loaded successfully.")
 
+    # get spreadsheet modification time
+    mod_time = datetime.fromtimestamp(os.path.getmtime(args.file))
+    logging.info(f"Spreadsheet last modified time: {mod_time.isoformat()}")
+
+
     # initialize the html table
     logging.debug("Initializing the HTML table for staff list...")
-    html_table = """
+    html_table = f"""
+Staff list document updated: {mod_time.strftime("%Y-%m-%d %H:%M:%S")}
+This page rendered on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
     <table>
         <tr>
             <th><strong>Name</strong></th>
@@ -111,8 +118,6 @@ if __name__ == "__main__":
     logging.debug("Updating the Confluence staff list page...")
     updated = confluence.update_staff_list_page(config['confluence']['space_key'], config['confluence']['page_id'], html_content=html_table)
 
-
-    sys.exit()
     # remove the downloaded file if not keeping it
     logging.debug("Checking if the file should be removed...")
     if not args.keep:
@@ -123,4 +128,6 @@ if __name__ == "__main__":
         except Exception as e:
             logging.error(f"Failed to remove file: {e}")
             sys.exit(2)
+    else:
+        logging.info("Keeping the downloaded file as per user request.")
 
