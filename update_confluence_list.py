@@ -78,6 +78,9 @@ if __name__ == "__main__":
     # initialize the html table
     logging.debug("Initializing the HTML table for staff list...")
     html_table = f"""
+    <h3>NOTE: DO NOT USE THIS LIST YET!</h3>
+    <p>This list is not yet in production and the data in it is <b>NOT</b> updated. Please visit <a href="https://scilifelab.atlassian.net/wiki/spaces/NBISINTRA/pages/3544481818/NBIS+staff+list">NBIS staff list</a> for the current list.</p>
+
     <table>
         <tr>
             <th><strong>Name</strong></th>
