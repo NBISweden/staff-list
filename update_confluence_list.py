@@ -81,6 +81,10 @@ if __name__ == "__main__":
     <h3>NOTE: DO NOT USE THIS LIST YET!</h3>
     <p>This list is not yet in production and the data in it is <b>NOT</b> updated. Please visit <a href="https://scilifelab.atlassian.net/wiki/spaces/NBISINTRA/pages/3544481818/NBIS+staff+list">NBIS staff list</a> for the current list.</p>
 
+    <p>This list is generated daily from the central master staff list in Data Center's NextCloud instance.
+Staff list document updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
+This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}</p>
+
     <table>
         <tr>
             <th><strong>Name</strong></th>
@@ -95,6 +99,7 @@ if __name__ == "__main__":
     headers = [cell.value.lower() if cell.value is not None else cell.value for cell in ws[1]]
     header_dict = {header: index for index, header in enumerate(headers)}
     logging.debug(f"Column headers: {header_dict}")
+    #pdb.set_trace()
 
     # Loop through the rows in the spreadsheet and create the HTML table
     logging.debug("Processing the spreadsheet...")
@@ -104,19 +109,34 @@ if __name__ == "__main__":
         if not any(row):
             continue
     
+        # Create a dictionary for each staff member, replace None with empty string
+        staff_member = {header: (row[header_dict[header]] if header in header_dict and row[header_dict[header]] is not None else "") for header in header_dict}
+        staff_list.append(staff_member)
+
+    # sanity check the staff list
+    logging.debug("Sanity checking the staff list...")
+    if len(staff_list) < 10 :
+        # include the hostname in the log message for easier debugging
+        logging.error(f"Staff list seems too short (only {len(staff_list)} entries). Check the spreadsheet and the script. Hostname: {os.uname().nodename}")
+        sys.exit(1)
+
+
+    # sort the staff list by name
+    staff_list.sort(key=lambda x: x['name'])
+
+    # add the staff members to the html table
+    for staff_member in staff_list:
+
         html_table += f"""
         <tr>
-            <td>{row[header_dict['name']]}</td>
-            <td>{row[header_dict['unit']]}</td>
-            <td>{row[header_dict['organization']]}</td>
-            <td>{row[header_dict['role']]}</td>
-        </tr>"""
+            <td>{staff_member['name']}</td>
+            <td>{staff_member['unit/team']}</td>
+            <td>{staff_member['university']}</td>
+            <td>{staff_member['role']}</td>
+        </tr>
+        """
 
-    html_table += f"""\n    </table>
-This list is generated daily from the central master staff list in Data Center's NextCloud instance.
-Staff list document updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
-This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}
-"""
+    html_table += "\n    </table>"
 
 
     confluence = Confluence(config, args)
