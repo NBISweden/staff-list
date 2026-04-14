@@ -124,8 +124,31 @@ This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
     # sort the staff list by name
     staff_list.sort(key=lambda x: x['name'])
 
+    today = datetime.today().date()
+
     # add the staff members to the html table
     for staff_member in staff_list:
+
+        # skip employees whose end date has passed
+        logging.debug("Filtering out staff members whose end date has passed...")
+        if staff_member['employment end']:
+
+            # check if already datetime
+            if isinstance(staff_member['employment end'], datetime):
+                end_date = staff_member['employment end'].date()
+            else:
+                # else, try to convert it to a date object
+                try:
+                    end_date = datetime.strptime(staff_member['employment end'], "%Y-%m-%d").date()
+                except ValueError as e:
+                    # if it fails, log the error and assume the end date is in the far future to avoid filtering out the staff member
+                    logging.error(f"Failed to parse end date for {staff_member['name']}: {e}. Assuming not ended, but please fix the date format in the spreadsheet (should be YYYY-MM-DD)")
+                    end_date = datetime.max.date()
+
+            # check if the end date is in the past
+            if end_date < today:
+                logging.debug(f"Skipping {staff_member['name']} because their end date ({end_date}) has passed.")
+                continue
 
         html_table += f"""
         <tr>
