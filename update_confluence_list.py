@@ -78,12 +78,10 @@ if __name__ == "__main__":
     # initialize the html table
     logging.debug("Initializing the HTML table for staff list...")
     html_table = f"""
-    <h3>NOTE: DO NOT USE THIS LIST YET!</h3>
-    <p>This list is not yet in production and the data in it is <b>NOT</b> updated. Please visit <a href="https://scilifelab.atlassian.net/wiki/spaces/NBISINTRA/pages/3544481818/NBIS+staff+list">NBIS staff list</a> for the current list.</p>
+    <p>This list is generated daily from the central <a href="https://nextcloud.dc.scilifelab.se/apps/onlyoffice/3113254?filePath=%2FNBIS%20TechOps%20Staff%20list%2Fnbis_staff.xlsx">master staff list in Data Center's NextCloud instance</a>.</p>
 
-    <p>This list is generated daily from the central master staff list in Data Center's NextCloud instance.
-Staff list document updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
-This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}</p>
+    <p>Master staff list document updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
+This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}</p>
 
     <table>
         <tr>
