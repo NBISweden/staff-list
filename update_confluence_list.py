@@ -80,7 +80,7 @@ if __name__ == "__main__":
     html_table = f"""
     <p>This list is generated daily from the central <a href="https://nextcloud.dc.scilifelab.se/apps/onlyoffice/3113254?filePath=%2FNBIS%20TechOps%20Staff%20list%2Fnbis_staff.xlsx">master staff list in Data Center's NextCloud instance</a>.</p>
 
-    <p>Master staff list document updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
+    <p>Master staff list updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
 This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}</p>
 
     <table>
