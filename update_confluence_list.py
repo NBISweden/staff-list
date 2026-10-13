@@ -49,6 +49,26 @@ if __name__ == "__main__":
     with open(args.config, 'r') as file:
         config = yaml.safe_load(file)
 
+    # make sure the config has the required keys
+    required_keys = ['nextcloud', 'confluence']
+    for key in required_keys:
+        if key not in config:
+            logging.error(f"Missing required key in configuration file: {key}")
+            sys.exit(1)
+
+    # check each subkey in nextcloud and confluence
+    nextcloud_required_keys = ['base_url', 'username', 'password', 'remote_file_path']
+    for key in nextcloud_required_keys:
+        if key not in config['nextcloud']:
+            logging.error(f"Missing required key in nextcloud configuration: {key}")
+            sys.exit(1)
+
+    confluence_required_keys = ['base_url', 'username', 'api_key', 'space_key', 'page_id', 'spreadsheet_url']
+    for key in confluence_required_keys:
+        if key not in config['confluence']:
+            logging.error(f"Missing required key in confluence configuration: {key}")
+            sys.exit(1)
+
     # download the spreadsheet
     nextcloud = Nextcloud(config, args)
     nextcloud.download_spreadsheet()
@@ -79,7 +99,7 @@ if __name__ == "__main__":
     # initialize the html table
     logging.debug("Initializing the HTML table for staff list...")
     html_table = f"""
-    <p>This list is generated daily from the central <a href="https://nextcloud.dc.scilifelab.se/apps/onlyoffice/3113254?filePath=%2FNBIS%20TechOps%20Staff%20list%2Fnbis_staff.xlsx">master staff list in Data Center's NextCloud instance</a>.</p>
+    <p>This list is generated daily from the central <a href="{config['confluence']['spreadsheet_url']}">master staff list</a>.</p>
 
     <p>Master staff list updated:&nbsp;&nbsp;&nbsp;{mod_time.strftime("%Y-%m-%d %H:%M")}
 This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strftime("%Y-%m-%d %H:%M")}</p>
