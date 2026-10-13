@@ -28,6 +28,7 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode')
     parser.add_argument('-f', '--file', type=str, help='Path to where the stafflist will be downloaded (default: /tmp/)', default='/tmp/nbis_staff.xlsx')
     parser.add_argument('-k', '--keep', action='store_true', help='Keep the downloaded file after processing')
+    parser.add_argument('-n', '--dry-run', action='store_true', help='Perform a dry run without making any changes')
     args = parser.parse_args()
 
     # Set up logging
@@ -161,8 +162,12 @@ This page rendered on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{datetime.now().strfti
 
 
     confluence = Confluence(config, args)
-    logging.debug("Updating the Confluence staff list page...")
-    updated = confluence.update_staff_list_page(config['confluence']['space_key'], config['confluence']['page_id'], html_content=html_table)
+    if args.dry_run:
+        logging.info("Dry run enabled. The following HTML content would be updated on the Confluence page:")
+        logging.info(html_table)
+    else:
+        logging.debug("Updating the Confluence staff list page...")
+        updated = confluence.update_staff_list_page(config['confluence']['space_key'], config['confluence']['page_id'], html_content=html_table)
 
     # remove the downloaded file if not keeping it
     logging.debug("Checking if the file should be removed...")
